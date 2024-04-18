@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Event</h1>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }} {% if form.errors %}
+  <p>Your form has errors, please check them before submitting:</p>
+  {% endif %}
+  <button type="submit">Save Event</button>
+</form>
+{% endblock %}

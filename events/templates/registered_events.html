@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block content %}
+<div
+  class="container m-20 bg-slate-400 text-gray-900 p-6 rounded-lg shadow-md flex flex-col justify-center items-center"
+>
+  <h1 class="font-bold text-xl underline mb-4">
+    You're Registered for these events:
+  </h1>
+  {% if events %}
+  <ul class="flex flex-col justicy-center items-center">
+    {% for event in events %}
+    <li
+      class="mb-4 p-10 bg-slate-300 rounded flex flex-col justicy-center items-center"
+    >
+      <p>Event Name: {{ event.name }}</p>
+      <br />
+      <p>Date: {{ event.date }}</p>
+      <br />
+      <p>Location: {{ event.location }}</p>
+      <br />
+      <!-- Place the form inside the loop so each event has its own form -->
+      <form
+        action="{% url 'events:unregister' pk=event.pk %}"
+        method="post"
+        style="display: inline"
+      >
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="btn btn-danger hover:bg-slate-800 bg-blue-700 text-gray-200 p-2 rounded"
+          onclick="return confirm('Are you sure you want to Un-register for this event?');"
+        >
+          Unregister
+        </button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>You have not registered for any events.</p>
+  {% endif %}
+</div>
+{% endblock %}
