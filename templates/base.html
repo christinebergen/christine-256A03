@@ -51,10 +51,11 @@
               >
               {% endif %}
             </div>
+            {% if user.is_authenticated %}
             <div class="flex flex-col md:flex-row mt-2">
               <p class="pr-4">Welcome, {{ user.username }}!</p>
               <p>Your role: {{ user.groups.all|join:" " }}</p>
-            </div>
+            </div>{% endif %}
           </nav>
         </div>
       </div>
