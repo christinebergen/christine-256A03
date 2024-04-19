@@ -1,0 +1,16 @@
+{% extends 'base.html'%} {% load event_tags %} {% block content %}
+<div class="">
+  <h1 class="text-2xl font-bold mb-4 text-center">Events and Registrants</h1>
+  {% for event, registrants in events_with_registrants %}
+  <div class="m-4 bg-slate-300 p-10 rounded">
+    <h2 class="text-lg font-bold">Event Name: {{ event.name }} <br /></h2>
+    <p>{{ event.date }}</p>
+    <h3 class="font-bold mt-4">Registrants:</h3>
+
+    {% for registration in registrants %} {{ registration.user.username }} 
+    {{ registration.first_name }} {% endfor %}
+  </div>
+
+  {% endfor %}
+</div>
+{%endblock%}

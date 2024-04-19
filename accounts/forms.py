@@ -10,6 +10,18 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username", "email", "first_name", "last_name", "password1", "password2")
+        help_texts = {
+            'username': 'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
+            'password1': 'Your password must contain at least 8 characters and should not be entirely numeric.',
+        }
+        widgets = {
+            'username': forms.TextInput(attrs={ 'class': 'border-2 '}),
+            'email': forms.EmailInput(attrs={'class': 'border-2 '}),
+            'first_name': forms.TextInput(attrs={'class':'border-2 '}),
+            'last_name': forms.TextInput(attrs={'class': 'border-2 '}),
+            'password1': forms.PasswordInput(attrs={'class': 'border-2 '}),
+            'password2': forms.PasswordInput(attrs={'class': 'border-2 '}),
+        }
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

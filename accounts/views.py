@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, permission_required
 
 from django.contrib import messages
 from django.contrib.auth.models import Group
@@ -42,10 +44,28 @@ def login(request):
         form = AuthForm(request)
         return render(request, 'login.html', {'form': form})
     
+@login_required    
+  
 def reports(request):
     if request.method == 'GET':
         return render (request, 'reports.html')
+    
+@login_required    
+@permission_required('events.add_event', raise_exception=True)
+def user_list(request):
+    users = User.objects.all()
+    return render(request, 'user_list.html', {'users': users})
 
+@login_required    
+@permission_required('events.add_event', raise_exception=True)
+def admin_events_list(request):
+    events = Event.objects.all()
+    events_with_registrants = []
+    for event in events:
+        registrants = EventRegistration.objects.filter(event=event).select_related('user')
+        events_with_registrants.append((event, registrants))
+
+    return render(request, 'admin_events_list.html', {'events_with_registrants': events_with_registrants})
 
 def logoutaccount(request):
     auth_logout(request)

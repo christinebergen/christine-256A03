@@ -1,3 +1,18 @@
-{% extends 'base.html'%} {% block content %}
-<h1>This is the Reports page!!</h1>
-{%endblock%}
+{% extends 'base.html'%} {% load event_tags %} {% block content %}
+
+<div class="text-center">
+  <h1 class="text-2xl font-bold mb-4">View Reports</h1>
+
+  {% if user|has_group:"Administrator" %}
+  <a
+    href="{% url 'accounts:user_list' %}"
+    class="hover:underline hover:bg-slate-800 bg-blue-700 text-gray-200 p-2 rounded mb-8"
+    >View Users List</a
+  >
+  <a
+    href="{% url 'accounts:admin_events_list' %}"
+    class="hover:underline hover:bg-slate-800 bg-blue-700 text-gray-200 p-2 rounded mb-8"
+    >View All Events with Registrants</a
+  >
+</div>
+{%endif%} {%endblock%}

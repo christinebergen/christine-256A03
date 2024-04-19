@@ -1,4 +1,4 @@
-
+{% load event_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,47 +15,56 @@
   </head>
 
   <body class="bg-slate-900 text-gray-200">
-    <div class="p-4 flex flex-col">
-      <div class="flex justify-between items-center flex-row">
+    <div class="p-4 mt-4 flex flex-col">
+      <div class="flex justify-between items-center">
         {% block welcome %}
-        <h1 class="text-3xl">Welcome to SoundScape's 2024 Events!</h1>
+        <h1 class="text-3xl">Welcome to Your 2024 Events!</h1>
         {% endblock welcome%}
-        <div>
-          <nav class="hidden md:flex space-x-4 menu">
-            <a
-              href="{% url 'events:event_list' %}"
-              class="hover:underline hover:bold"
-              >Events List</a
-            >
-            <a
-              href="{% url 'events:registered_events' %}"
-              class="hover:underline hover:bold"
-              >My Registered Events</a
-            >
-            <a href="{% url 'accounts:reports' %}" class="hover:underline"
-              >Reports</a
-            >
-            {% if user.is_authenticated %}
-
-            <a href="{% url 'accounts:logout' %}" class="hover:underline"
-              >Logout</a
-            >
-            <p>Welcome, {{ user.username }}!</p>
-            <p>Your role: {{ user.groups.all|join:" " }}</p>
-            {% else %}
-            <a href="{% url 'accounts:login' %}" class="hover:underline"
-              >Login</a
-            >
-            <a href="{% url 'accounts:register' %}" class="hover:underline"
-              >Sign Up</a
-            >
-            {% endif %}
+        <div class="">
+          <nav class="flex flex-col md:items-center md:justify-end space-x-4">
+            <div class="flex flex-col md:flex-row space-x-4 text-lg font-bold">
+              <a
+                href="{% url 'events:event_list' %}"
+                class="hover:underline hover:bold"
+                >Events List</a
+              >
+              <a
+                href="{% url 'events:registered_events' %}"
+                class="hover:underline hover:bold"
+                >My Registered Events</a
+              >
+              {% if user|has_group:"Administrator" %}
+              <a href="{% url 'accounts:reports' %}" class="hover:underline"
+                >Reports</a
+              >
+              {%endif%}
+              {% if user.is_authenticated %}
+              <a href="{% url 'accounts:logout' %}" class="hover:underline"
+                >Logout</a
+              >
+              {% else %}
+              <a href="{% url 'accounts:login' %}" class="hover:underline"
+                >Login</a
+              >
+              <a href="{% url 'accounts:register' %}" class="hover:underline"
+                >Sign Up</a
+              >
+              {% endif %}
+            </div>
+            <div class="flex flex-col md:flex-row mt-2">
+              <p class="pr-4">Welcome, {{ user.username }}!</p>
+              <p>Your role: {{ user.groups.all|join:" " }}</p>
+            </div>
           </nav>
         </div>
       </div>
     </div>
-    <hr class="border-2" />
+    <hr class="border-2 mt-4" />
 
-    <div id="content">{% block content %} {% endblock content %}</div>
+    <div
+      id="content " class="m-20 bg-slate-400 text-gray-900 p-6 rounded-lg shadow-md flex flex-col justify-center items-center"
+    >
+      {% block content %} {% endblock content %}
+    </div>
   </body>
 </html>

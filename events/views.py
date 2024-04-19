@@ -1,4 +1,5 @@
 from django.http import HttpResponseNotAllowed
+from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, permission_required
@@ -11,7 +12,9 @@ from .forms import EventForm
 @login_required        
 def event_list(request):
     if request.method =='GET':
-        events = Event.objects.all()
+        now = timezone.now()
+        # Filter events to only include those whose date is greater than the current time and order them by date
+        events = Event.objects.filter(date__gt=now).order_by('date')
         return render(request, 'events.html', {'events': events, 'user': request.user,
         'groups': request.user.groups.all()})
     
@@ -52,7 +55,7 @@ def event_delete(request, pk):
     return HttpResponseNotAllowed(['POST'])
 
 @login_required
-@permission_required('events.can_register', raise_exception=True)
+
 def event_register(request, pk):
     event = get_object_or_404(Event, pk=pk)
     if not EventRegistration.objects.filter(event=event, user=request.user).exists():
@@ -61,6 +64,9 @@ def event_register(request, pk):
     else:
         messages.error(request, "You are already registered for this event.")
     return render(request, 'registered_events.html')
+
+
+
 
 @login_required
 def unregister(request, pk):

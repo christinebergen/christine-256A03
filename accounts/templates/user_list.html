@@ -1,0 +1,15 @@
+{% extends 'base.html'%} {%block content%}
+<div class="">
+  <h2 class="text-2xl font-bold mb-4">Users and Their Roles</h2>
+  <ul>
+    {% for user in users %}
+    <li class="bg-slate-300 p-10 m-4 rounded">
+      Username: {{ user.username }}<br />Name:{{ user.first_name }} 
+      {{ user.last_name }}<br />
+      Role: {{ user.groups.all|join:", " }}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{%endblock%}
