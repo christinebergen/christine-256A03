@@ -9,5 +9,4 @@ urlpatterns = [
     path('reports', reports, name='reports'),
     path('user_list', user_list, name='user_list'),
     path('admin_events_list', admin_events_list, name='admin_events_list')
-  
 ]

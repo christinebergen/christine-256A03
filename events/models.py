@@ -17,7 +17,7 @@ class EventRegistration(models.Model):
     date_registered = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('event', 'user')  # Prevent the same user from registering multiple times
+        unique_together = ('event', 'user')  # prevents the same user from registering multiple times
 
     def __str__(self):
         return f"{self.user.username} registered for {self.event.name}"

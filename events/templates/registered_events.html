@@ -1,5 +1,4 @@
 <!-- This page shows the events that the current user is signed up for -->
-
 {% extends 'base.html' %} {% block content %}
 <div
   class=""
@@ -19,7 +18,7 @@
       <br />
       <p>Location: {{ event.location }}</p>
       <br />
-      <!-- Place the form inside the loop so each event has its own form -->
+      
       <form
         action="{% url 'events:unregister' pk=event.pk %}"
         method="post"

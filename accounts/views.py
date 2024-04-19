@@ -44,8 +44,7 @@ def login(request):
         form = AuthForm(request)
         return render(request, 'login.html', {'form': form})
     
-@login_required    
-  
+@login_required     
 def reports(request):
     if request.method == 'GET':
         return render (request, 'reports.html')
